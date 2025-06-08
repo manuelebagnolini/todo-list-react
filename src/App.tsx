@@ -21,8 +21,64 @@ const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
     i18n.changeLanguage(navigator.language);
   }, [i18n]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if ('serviceWorker' in navigator && Notification.permission === 'granted') {
+        const now = new Date();
+        const nowTime = now.getTime();
+        const oneDayMs = 24 * 60 * 60 * 1000;
+
+        const updatedTodos = todos.map(todo => {
+          const dueTime = todo.dueDate ? new Date(todo.dueDate).getTime() : 0;
+        
+          // Notify task expired
+          if (
+            todo.dueDate &&
+            !todo.completed &&
+            !todo.notified &&
+            dueTime <= nowTime
+          ) {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.showNotification(`${t('task_expired')} | ${t('reminder')}`, {
+                body: `${todo.title} ${t('is_expired')}!`,
+              });
+            });
+            return { ...todo, notified: true };
+          }
+          // Notify task due within 1 day
+          if (
+            todo.dueDate &&
+            !todo.completed &&
+            !todo.notified &&
+            dueTime > nowTime &&
+            dueTime - nowTime <= oneDayMs
+          ) {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.showNotification(`${t('task_about_expire')} | ${t('reminder')}`, {
+                body: `${todo.title} ${t('is_about_expired')}!`
+              });
+            });
+            return { ...todo, notified: true };
+          }
+          return todo;
+        });
+
+        // Update todos with notified property
+        setTodos(updatedTodos);
+      }
+    }, 60 * 1000); // every minute
+
+    return () => clearInterval(interval);
+  }, [todos, setTodos, t]);
 
   const addTodo = (title: string, category: string, dueDate: Date | null) => {
     const newTodo: Todo = {
@@ -32,6 +88,7 @@ const App: React.FC = () => {
       completed: false,
       dueDate: dueDate ? new Date(dueDate) : undefined,
       createdAt: new Date(),
+      notified: false,
     };
     setTodos([...todos, newTodo]);
   };

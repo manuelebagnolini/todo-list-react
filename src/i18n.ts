@@ -21,6 +21,11 @@ i18n.use(initReactI18next).init({
         "mark_as_complete": "Mark as complete",
         "mark_as_incomplete": "Mark as incomplete",
         "delete": "Delete",
+        "reminder" : "Reminder",	
+        "task_expired": "Task expired",
+        "task_about_expire": "Task is about to expire",
+        "is_expired": "is expired",
+        "is_about_expired": "is about to expire",
       }
     },
   }},
