@@ -17,7 +17,10 @@ i18n.use(initReactI18next).init({
         "not_set": "N/A",
         "byCategory": "By Category",
         "all": "All",
-        "form_submission_failed": "Form submission failed",        
+        "form_submission_failed": "Form submission failed",
+        "mark_as_complete": "Mark as complete",
+        "mark_as_incomplete": "Mark as incomplete",
+        "delete": "Delete",
       }
     },
   }},

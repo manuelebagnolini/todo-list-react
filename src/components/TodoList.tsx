@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Button } from 'antd';
+import { List, Button, Tooltip } from 'antd';
 import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Todo } from '../types';
 import { useTranslation } from 'react-i18next';
@@ -19,17 +19,27 @@ const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, deleteTodo }) =>
       renderItem={(todo) => (
         <List.Item
           key={todo.id}
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}  
+          style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            textDecoration: todo.completed ? 'line-through' : 'none',
+            color: todo.completed ? '#aaa' : 'inherit',
+          }}
           actions={[
-            <Button
-              icon={todo.completed ? <CloseOutlined /> : <CheckOutlined />}
-              onClick={() => toggleTodo(todo.id)}
-            />,
-            <Button
-              icon={<DeleteOutlined />}
-              onClick={() => deleteTodo(todo.id)}
-              danger
-            />
+            <Tooltip title={todo.completed ? t('mark_as_incomplete') : t('mark_as_complete')}>
+              <Button
+                icon={todo.completed ? <CloseOutlined /> : <CheckOutlined />}
+                onClick={() => toggleTodo(todo.id)}
+              />
+            </Tooltip>,
+            <Tooltip title={t('delete')}>
+              <Button
+                icon={<DeleteOutlined />}
+                onClick={() => deleteTodo(todo.id)}
+                danger
+              />
+            </Tooltip>
           ]}
         >
           <List.Item.Meta
