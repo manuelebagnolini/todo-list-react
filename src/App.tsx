@@ -9,14 +9,15 @@ import './App.css';
 import './i18n';
 import { useTranslation } from 'react-i18next';
 import uuid from 'react-uuid';
+import useLocalStorage from './hooks/useLocalStorage';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const categories = ['Work', 'Personal', 'Shopping', 'Other']; // TODO: Replace with dynamic categories if needed
+  const [todos, setTodos] = useLocalStorage<Todo[]>('todos', []);
+  const categories = ['Work', 'Personal', 'Shopping', 'Other']; // TODO: Replace with a dynamic list edited by the user
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
