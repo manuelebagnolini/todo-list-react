@@ -1,54 +1,77 @@
-# React + TypeScript + Vite
+# Todo List React PWA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a **Todo List application** built with **React**, **TypeScript**, and **Vite**, designed as a **Progressive Web App (PWA)**.  
+It allows you to manage tasks, categories, due dates, and sends local notifications for tasks that are about to expire or have expired.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Main Features
 
-## Expanding the ESLint configuration
+- Manage tasks with title, category, due date, and completed status
+- Local notifications for tasks that are due soon or have expired (via Service Worker)
+- Data saved locally (localStorage)
+- Responsive and modern UI with [Ant Design](https://ant.design/)
+- Multilanguage support via [react-i18next](https://react.i18next.com/)
+- Installable as a PWA on desktop and mobile
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Technologies Used
+
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Ant Design](https://ant.design/)
+- [react-i18next](https://react.i18next.com/)
+- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) (for Service Worker and installability)
+- [Workbox](https://developer.chrome.com/docs/workbox/) (for caching and notifications)
+- [uuid](https://www.npmjs.com/package/react-uuid) (for unique IDs)
+
+---
+
+## Requirements
+
+- [Node.js](https://nodejs.org/) **v22** or higher
+- [npm](https://www.npmjs.com/) **v10** or higher
+
+---
+
+## Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd todo-list-react
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+---
+
+## Start in Development Mode
+
+```bash
+npm run dev
 ```
+The app will be available at [http://localhost:5173](http://localhost:5173) (or the port shown by Vite).
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Build and Production Preview
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
+npm run preview
 ```
+The preview will be available at [http://localhost:4173](http://localhost:4173).
+
+---
+
+## Notification Notes
+
+- Notifications work only on **HTTPS** or **localhost**.
+- On Chrome, notifications are not available in incognito mode.
+- To receive notifications, allow permissions when prompted by the browser.
