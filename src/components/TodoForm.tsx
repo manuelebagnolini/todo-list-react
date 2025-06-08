@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Select, DatePicker } from 'antd';
+import React from 'react';
+import { Form, Input, Button, Select, DatePicker, message } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 interface TodoFormProps {
@@ -7,42 +7,47 @@ interface TodoFormProps {
   addTodo: (text: string, category: string, dueDate: Date | null) => void;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ categories, addTodo }) => {
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [dueDate, setDueDate] = useState<Date | null>(null);
+interface TodoFormValues {
+  title: string;
+  category: string;
+  dueDate?: Date;
+}
 
+const TodoForm: React.FC<TodoFormProps> = ({ categories, addTodo }) => {
+  const [form] = Form.useForm();
   const { t } = useTranslation();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim() || !category.trim()) return;
-    console.log(`Adding todo: ${title} in category: ${category}`);
-    addTodo(title, category, dueDate);
-    setTitle('');
-    setCategory('');
-    setDueDate(null);
+  const handleFinish = (values: TodoFormValues) => {
+    addTodo(values.title, values.category, values.dueDate || null);
+    form.resetFields();
+  };
+
+  const handleFinishFailed = () => {
+    message.error(t('form_submission_failed'));
   };
 
   return (
-    <Form onSubmitCapture={handleSubmit}>
-      <Form.Item>
-        <Input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={t('title')}
-        />
+    <Form
+      form={form}
+      onFinish={handleFinish}
+      onFinishFailed={handleFinishFailed}
+      layout="vertical">
+      <Form.Item
+        name={'title'}
+        rules={[{ required: true, message: t('title_required') }]}>
+          <Input placeholder={t('title')} />
       </Form.Item>
-      <Form.Item>
+      <Form.Item
+        name={'category'}
+        rules={[{ required: true, message: t('category_required') }]}>
         <Select
-          onChange={(value) => setCategory(value)}
           options={categories.map((cat) => ({ value: cat, label: cat }))}
           placeholder={t('category')}
         />
       </Form.Item>
-      <Form.Item>
+      <Form.Item
+        name={'dueDate'}>
         <DatePicker
-          onChange={(date) => setDueDate(date ? date.toDate() : null)}
           placeholder={t('due_date')}
           style={{ width: '100%' }}
          />

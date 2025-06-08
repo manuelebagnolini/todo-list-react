@@ -2,6 +2,7 @@ import React from 'react';
 import { List, Button } from 'antd';
 import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Todo } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface TodoListProps {
   todos: Todo[];
@@ -10,7 +11,8 @@ interface TodoListProps {
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, deleteTodo }) => {
-  console.log(todos);
+  const { t } = useTranslation();
+  
   return (
     <List
       dataSource={todos}
@@ -32,8 +34,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, deleteTodo }) =>
         >
           <List.Item.Meta
             title={todo.title}
-            description={`Category: ${todo.category} | Due: ${todo.dueDate ? todo.dueDate.toLocaleDateString() : 'N/A'}`}
-
+            description={`${t('category')}: ${todo.category} | ${t('due_date')}: ${todo.dueDate ? todo.dueDate.toLocaleDateString() : t('not_set')}`}
           />
         </List.Item>
       )}
