@@ -14,6 +14,10 @@ It allows you to manage tasks, categories, due dates, and sends local notificati
 - Multilanguage support via [react-i18next](https://react.i18next.com/)
 - Installable as a PWA on desktop and mobile
 
+Flat | Grouped
+--- | ---
+![screenshot-narrow](https://github.com/user-attachments/assets/2be1707b-f1fc-404a-a94a-4b0bc5ad243c) | ![screenshot-wide](https://github.com/user-attachments/assets/987f8bff-632a-4d48-931d-242fdd197aa5)
+
 ---
 
 ## Technologies Used
