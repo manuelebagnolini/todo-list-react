@@ -50,6 +50,7 @@ const App: React.FC = () => {
             navigator.serviceWorker.ready.then(registration => {
               registration.showNotification(`${t('task_expired')} | ${t('reminder')}`, {
                 body: `${todo.title} ${t('is_expired')}!`,
+                icon: '/icon-192.png'
               });
             });
             return { ...todo, notified: true };
@@ -64,7 +65,8 @@ const App: React.FC = () => {
           ) {
             navigator.serviceWorker.ready.then(registration => {
               registration.showNotification(`${t('task_about_expire')} | ${t('reminder')}`, {
-                body: `${todo.title} ${t('is_about_expired')}!`
+                body: `${todo.title} ${t('is_about_expired')}!`,
+                icon: '/icon-192.png'
               });
             });
             return { ...todo, notified: true };
