@@ -30,7 +30,12 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 self.addEventListener('push', (event: PushEvent) => {
-  const data = event.data?.json() || {};
+  let data: { title: string; body?: string };
+  try {
+    data = event.data?.json();
+  } catch {
+    data = { title: 'Push', body: event.data?.text() || 'You have a notification' };
+  }
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
